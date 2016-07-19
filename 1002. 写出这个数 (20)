@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+int main()
+{
+	char str[100];
+	char s[4];
+	int i = 0;
+	int j = 0;
+	int sum = 0;
+	char *sn[10] = {"ling", "yi", "er", "san", "si",
+		"wu", "liu", "qi", "ba", "jiu"};
+	gets(str);
+
+	while (str[i] != '\0')
+	{
+		sum += str[i++] - '0';
+	}
+
+	//sprintf(char *buffer, const char *format,[ argument])
+	//store the argument(number) to the buffer(characters)
+	sprintf(s, "%d", sum);	
+
+	while (s[j] != '\0')
+	{
+		int a = s[j] - '0';		//traslate a character to a number
+		printf("%s", sn[a]);
+		j++;
+
+		if (s[j] != '\0')
+			printf(" ");
+		else
+			printf("\n");
+	}
+
+	return 0;
+}
