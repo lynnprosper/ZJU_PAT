@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <malloc.h>
+// key core: create dynamic array, every element is a 'struct node'.
+typedef struct
+{
+	char name[11];
+	char id[11];
+	int score;
+}Node;
+
+int main()
+{
+	int n;
+	int i = 1;
+	Node *max, *min;
+	scanf("%d", &n);
+
+	Node * p = (Node *)malloc(sizeof(Node) * n);
+	if (p == NULL)
+	{
+		printf("memory allocation failed\n");
+		exit(-1);
+	}
+
+	scanf("%s%s%d", p[0].name, p[0].id, &p[0].score);		//notice: why use '&' ?
+	max = min = p;
+
+	while (i < n)
+	{
+		scanf("%s%s%d", p[i].name, p[i].id, &p[i].score);
+		if (p[i].score > max->score)
+			max = p + i;
+		if (p[i].score < min->score)
+			min = p + i;
+		i++;
+	}
+
+	printf("%s %s\n", max->name, max->id);
+	printf("%s %s\n", min->name, min->id);
+
+	return 0;
+}
