@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <malloc.h>
+#include <stdlib.h>
+/* method: 
+in the calculation's procession, find the number given 
+is the first time calculated.
+No matter if the number is calculated in the latter calculation.
+use array 'flag' to indicate if the number is calculated.
+
+the function used:
+qsort();
+*/
+
+int cmpDec(const void *a, const void *b);
+
+int main()
+{
+	int n, i, t, len;
+	len = 0;
+	int flag[305] = { 0 };
+	scanf("%d", &n);
+	int *wn = (int *)malloc(sizeof(int)* n);
+
+	for (i = 0; i < n; i++)
+	{
+		scanf("%d", &wn[i]);
+		t = wn[i];
+
+		while (t != 1)
+		{
+			if (flag[wn[i]] != 1)
+			{
+				if (t % 2 == 0)
+					t /= 2;
+				else
+					t = (t * 3 + 1) / 2;
+
+				if (flag[t] == 1)
+					break;
+				else
+					flag[t] = 1;
+			}
+			else
+				break;
+			
+		}
+	}
+
+	qsort(wn, n, sizeof(wn[0]), cmpDec);
+	for (i = 0; i < n; i++)
+	{
+		if (flag[wn[i]] == 0)
+		{
+			if (len == 0)
+			{
+				printf("%d", wn[i]);
+			}
+			else
+				printf(" %d", wn[i]);
+			len++;
+		}
+	}
+
+	printf("\n");
+	free(wn);
+	return 0;
+}
+
+int cmpDec(const void *a, const void *b)
+{
+	return(*(int *)b - *(int *)a);
+}
