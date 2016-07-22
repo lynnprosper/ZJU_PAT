@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+
+int main()
+{
+	int d1, d2, d3, n, i;
+	scanf("%d", &n);
+	d1 = n / 100;
+	d2 = (n / 10) % 10;
+	d3 = n % 10;
+	for (i = 0; i < d1; i++)
+		printf("B");
+	for (i = 0; i < d2; i++)
+		printf("S");
+	for (i = 0; i < d3; i++)
+		printf("%d", i + 1);
+
+	printf("\n");
+
+	return 0;
+}
