@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <math.h>
+#define N 100001
+#define M 10000
+
+int isprime(int n);
+int main()
+{
+	int prime[M] = { 0 };
+	int i, j, n, cnt;
+	j = cnt = 0;
+	scanf("%d", &n);
+
+	for (i = 2; i < N; i++)
+	{
+		if (isprime(i))
+			prime[j++] = i;
+	}
+	for (i = 1; prime[i] <= n; i++)
+	{
+		if (prime[i] - prime[i-1] == 2)
+			cnt++;
+	}
+	printf("%d\n", cnt);
+
+	return 0;
+}
+
+int isprime(int n)
+{
+	int s = (int)sqrt(n);
+	int i;
+	for (i = 2; i <= s; i++)
+	{
+		if (n % i == 0)
+			return 0;
+	}
+	return 1;
+}
