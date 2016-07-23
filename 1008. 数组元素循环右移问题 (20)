@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+//step one: create a function 'reverse'.
+//step two: reverse the array;
+//step three: reverse a[0]~a[m-1] and reverse the rest;
+
+void reverse(int a[], int low, int high);
+
+int main()
+{
+	int n, m, i;
+	scanf("%d %d", &n, &m);
+	m %= n;
+
+	int *p = (int *)malloc(sizeof(int)* n);
+
+	for (i = 0; i < n; i++)
+		scanf("%d", &p[i]);
+	reverse(p, 0, n - 1);
+	reverse(p, 0, m - 1);
+	reverse(p, m, n - 1);
+
+	for (i = 0; i < n; i++)
+	{
+		printf("%d", p[i]);
+		if (i != n - 1)
+			printf(" ");
+		else
+			printf("\n");
+	}
+	
+	free(p);
+
+	return 0;
+}
+
+void reverse(int a[], int low, int high)
+{
+	int i, t;
+	int mid = (high - low) / 2;
+	if (low <= high)
+	{
+		for (i = 0; i <= mid; i++)
+		{
+			t = a[low];
+			a[low++] = a[high];
+			a[high--] = t;
+		}
+	}
+}
