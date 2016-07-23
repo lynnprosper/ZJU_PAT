@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main()
+{
+	int i, j, k;
+	k = i = 0;
+	char a[40][81];
+	char s[81];
+	
+	gets(s);
+	for (j = 0; s[j] != '\0'; j++)
+	{
+		if (s[j] != ' ')
+		{
+			a[i][k++] = s[j];
+
+		}	
+		else
+		{
+			a[i][k] = '\0';
+			k = 0;
+			i++;
+		}
+	}
+	a[i][k] = '\0';					// do not forget to add the end symbol;
+
+	for (i; i >= 0; i--)
+	{
+		printf("%s", a[i]);
+		if (i != 0)
+			printf(" ");
+		else
+			printf("\n");
+	}
+
+	return 0;
+}
