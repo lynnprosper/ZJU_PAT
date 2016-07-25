@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+
+int main()
+{
+	int n, i;
+	int a1, a2, a3, t4, cnt4, a5;
+	int remainder, cnt2, cnt1, cnt3, cnt5;
+	float a4;
+	i = a1 = a2 = cnt2 = cnt1 = cnt3 = cnt5 = a3 = t4 = cnt4 = a5 = 0;
+	scanf("%d", &n);
+	int *p = (int *)malloc(sizeof(int)* n);
+	while (i < n)
+	{
+		scanf("%d", &p[i]);
+		remainder = p[i] % 5;
+		switch (remainder)
+		{
+		case 0:
+			if (p[i] % 2 == 0)
+				a1 += p[i];
+			break;
+		case 1:
+			cnt2++;
+			if (cnt2 != 0 && cnt2 % 2 == 0)
+				a2 -= p[i];
+			else
+				a2 += p[i];
+			break;
+		case 2:
+			a3++;
+			break;
+		case 3:
+			t4 += p[i];
+			cnt4++;
+			break;
+		case 4:
+			if (p[i] > a5)
+				a5 = p[i];
+		}
+		i++;
+	}
+	a4 = (float)t4 / cnt4;
+	if (a1 == 0)
+		printf("N ");
+	else
+		printf("%d ", a1);
+
+	if (cnt2 == 0)
+		printf("N ");
+	else
+		printf("%d ", a2);
+
+	if (a3 == 0)
+		printf("N ");
+	else
+		printf("%d ", a3);
+
+	if (cnt4 == 0)
+		printf("N ");
+	else
+		printf("%.1f ", a4);
+
+	if (a5 == 0)
+		printf("N\n");
+	else
+		printf("%d\n", a5);
+
+	return 0;
+}
