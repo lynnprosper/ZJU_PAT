@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int isprime(int n);
+
+int main()
+{
+	int m, n, i, cnt;
+	i = 2;
+	cnt = 0;
+	scanf("%d %d", &m, &n);
+	int d = 0;
+	while (i)
+	{
+		if (isprime(i))
+		{
+			cnt++;
+			if (cnt >= m && cnt <= n)
+			{
+				d++;
+				if (d % 10 != 0 && cnt != n)
+					printf("%d ", i);
+				else
+					printf("%d\n", i);
+				if (cnt == n)
+					break;
+			}
+		}
+		++i;
+	}
+
+	return 0;
+}
+
+int isprime(int n)
+{
+	int t = (int)sqrt(n);
+	for (int i = 2; i <= t; i++)
+	{
+		if (n % i == 0)
+			return 0;
+	}
+	return 1;
+}
