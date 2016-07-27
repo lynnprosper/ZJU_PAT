@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+//functions used: qsort(); 
+//key: store four kinds data into four different array.
+//sort every array;
+//output every array;
+
+typedef struct students
+{
+	int number;
+	int merit_score;
+	int talent_score;
+}student;
+
+int cmpdec(const void *a, const void *b);		//the qsort's variable--comparative function.
+
+int main()
+{
+	int n, low, high, i;
+	int t1, t2, t3;
+	int j=0, k=0, l=0, m=0;
+	int cnt = 0;
+	scanf("%d %d %d", &n, &low, &high);
+	student *one = (student *)malloc(sizeof(student)* n);
+	student *two = (student *)malloc(sizeof(student)* n);
+	student *three = (student *)malloc(sizeof(student)* n);
+	student *four = (student *)malloc(sizeof(student)* n);
+
+
+
+	for (i = 0; i < n; i++)
+	{
+		scanf("%d %d %d", &t1, &t2, &t3);
+		if (t2 >= low && t3 >= low)
+		{
+			cnt++;
+			if (t2 >= high && t3 >= high)
+			{
+				one[j].merit_score = t2;
+				one[j].talent_score = t3;
+				one[j].number = t1;
+				j++;
+			}
+			else if (t2 >= high)
+			{
+				two[k].merit_score = t2;
+				two[k].talent_score = t3;
+				two[k].number = t1;
+				k++;
+			}
+			else if (t2 >= t3)
+			{
+				three[l].merit_score = t2;
+				three[l].talent_score = t3;
+				three[l].number = t1;
+				l++;
+			}
+			else
+			{
+				four[m].merit_score = t2;
+				four[m].talent_score = t3;
+				four[m].number = t1;
+				m++;
+			}
+		}
+	}
+		
+	qsort(one, j, sizeof(one[0]), cmpdec);
+	qsort(two, k, sizeof(two[0]), cmpdec);
+	qsort(three, l, sizeof(three[0]), cmpdec);
+	qsort(four, m, sizeof(four[0]), cmpdec);
+
+	printf("%d\n", cnt);
+	for (i = 0; i < j; i++)
+		printf("%d %d %d\n", one[i].number, one[i].merit_score, one[i].talent_score);
+	for (i = 0; i < k; i++)
+		printf("%d %d %d\n", two[i].number, two[i].merit_score, two[i].talent_score);
+	for (i = 0; i < l; i++)
+		printf("%d %d %d\n", three[i].number, three[i].merit_score, three[i].talent_score);
+	for (i = 0; i < m; i++)
+		printf("%d %d %d\n", four[i].number, four[i].merit_score, four[i].talent_score);
+
+	return 0;
+}
+
+int cmpdec(const void *a, const void *b)
+{
+	student *c = (student *)a;
+	student *d = (student *)b;
+	int t1 = c->merit_score + c->talent_score;
+	int t2 = d->merit_score + d->talent_score;
+	if (t1 != t2)
+		return (t2 > t1 ? 1 : -1);
+	else if (c->merit_score != d->merit_score)
+		return (d->merit_score - c->merit_score);
+	else
+		return (c->number - d->number);
+}
