@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+//key: number is a little big, define it the 'long long int'
+
+long long int findP(long long int a, int partn);		//calculate PA;
+
+int main()
+{
+	long long int a, b, suma, sumb;
+	int da, db;
+	scanf("%lld %d %lld %d", &a, &da, &b, &db);
+
+	suma = findP(a, da);
+	sumb = findP(b, db);
+	printf("%lld\n", suma + sumb);
+	return 0;
+}
+
+long long int findP(long long int a, int partn)
+{
+	char s[11];
+	int i = 0, cnt = 0;
+	long long int sum = 0;
+	char part = '0' + partn;
+	sprintf(s, "%d", a);		//translate the number a to a string 's'.
+	while (s[i] != '\0')
+	{
+		if (s[i] == part)
+			cnt++;
+		i++;
+	}
+
+	for (i = 0; i < cnt; i++)
+	{
+		sum = sum * 10 + partn;
+	}
+	return sum;
+}
