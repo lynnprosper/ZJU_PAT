@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+//key: store the input to a string.
+// imitate the method  of 'vertical division', namely how to divide it in your draft.
+
+int main()
+{
+	char a[1001], q[1001];
+	int b, i, j = 0;
+	int dividend, d_result, temp = 0;
+	scanf("%s %d", a, &b);
+
+	for (i = 0; a[i] != '\0'; i++)
+	{
+		dividend = a[i] - '0' + temp;
+		d_result = dividend % b;
+		if (dividend >= b)
+		{
+			q[j] = '0' + dividend / b;
+			temp = d_result * 10;
+		}
+		else
+		{
+			temp = dividend * 10;
+			q[j] = '0';
+		}
+		j++;
+	}
+
+	q[j] = '\0';
+	if (q[0] == '0' && q[1] == '\0')		//do not forget the dividend is a digit.
+		printf("%s %d\n", q, d_result);
+	else if (q[0] != '0')
+		printf("%s %d\n", q, d_result);
+	else
+		printf("%s %d\n", q + 1, d_result);
+	return 0;
+}
