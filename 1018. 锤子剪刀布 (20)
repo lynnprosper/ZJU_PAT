@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int maxthree(int a, int b, int c);		// function: the most gesture;
+char wingesture(int b, int c, int j);	// function: which gesture is the most; if all is 0, output 'B'.
+
+int main()
+{
+	int n, i;
+	char a1, a2;
+	int win1, win2, equals, c1, c2, j1, j2, b1, b2;
+	win1 = win2 = equals = c1 = c2 = j1 = j2 = b1 = b2 = 0;
+
+	scanf("%d", &n);
+	for (i = 0; i < n; i++)
+	{
+		scanf("\n%c %c", &a1, &a2);		//Notice the '\n'
+		if (a1 == a2)
+		{
+			equals++;
+		}
+		else
+		{
+			if (a1 == 'C')
+			{
+				if (a2 == 'J')
+				{
+					win1++;
+					c1++;
+				}
+				else
+				{
+					win2++;
+					b2++;
+				}
+			}
+			if (a1 == 'J')
+			{
+				if (a2 == 'B')
+				{
+					win1++;
+					j1++;
+				}
+				else
+				{
+					win2++;
+					c2++;
+				}
+			}
+			if (a1 == 'B')
+			{
+				if (a2 == 'C')
+				{
+					win1++;
+					b1++;
+				}
+				else
+				{
+					win2++;
+					j2++;
+				}
+			}
+		}
+	}
+	printf("%d %d %d\n", win1, equals, win2);
+	printf("%d %d %d\n", win2, equals, win1);
+	a1 = wingesture(b1, c1, j1);
+	a2 = wingesture(b2, c2, j2);
+	printf("%c %c\n", a1, a2);
+	
+	return 0;
+}
+
+int maxthree(int a, int b, int c)
+{
+	return (a >= b ? (a >= c ? 1 : 3) : (c > b ? 3 : 2));
+}
+
+char wingesture(int b, int c, int j)
+{
+	char result;
+	int t = maxthree(b, c, j);
+	switch (t)
+	{
+	case 1:
+		result = 'B';
+		break;
+	case 2:
+		result = 'C';
+		break;
+	case 3:
+		result = 'J';
+		break;
+	}
+	return result;
+}
