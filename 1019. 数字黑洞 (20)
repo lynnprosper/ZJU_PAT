@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+//key: use function qsort() to sort the number;
+// function sscanf() , translate string to a number;
+// function sprintf(), translate number to a string;
+
+int cmpinc(const void *a, const void *b);
+int cmpdec(const void *a, const void *b);
+
+int main()
+{
+	int nlow, nhigh, t, n;
+	char s[5];
+	scanf("%d", &n);				// n maybe a digit;
+
+	for (int i = 0; i < 4; i++)		// translate the number to string 's';
+	{
+		int m = 3 - i;
+		t = (int)pow(10, m);
+		s[i] = n / t + '0';
+		n = n % t;
+	}
+	s[4] = '\0';
+
+	do
+	{
+		qsort(s, 4, sizeof(s[0]), cmpdec);
+		sscanf(s, "%d", &nhigh);
+		qsort(s, 4, sizeof(s[0]), cmpinc);
+		sscanf(s, "%d", &nlow);
+		t = nhigh - nlow;
+		if (t < 1000)
+		{
+			s[0] = '0';
+			sprintf(s + 1, "%d", t);
+		}
+		else
+			sprintf(s, "%d", t);
+		printf("%04d - %04d = %04d\n", nhigh, nlow, t);
+	} while (t != 0 && t != 6174);
+	
+	return 0;
+}
+
+int cmpinc(const void *a, const void *b)
+{
+	int t = *(char *)a - *(char *)b;
+	return (t);
+}
+
+int cmpdec(const void *a, const void *b)
+{
+	int t = *(char *)b - *(char *)a;
+	return (t);
+}
+
