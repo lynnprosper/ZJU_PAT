@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+//key: use function qsort() to sort the number;
+
+typedef struct datas
+{
+	float inventory;		//test point: number maybe a float number;
+	float price;
+}data;
+
+int cmpdec(const void *a, const void *b);
+
+int main()
+{
+	int kinds, i;
+	float income = 0, amount;
+	scanf("%d %f", &kinds, &amount);
+	data *p = (data *)malloc(sizeof(data)* kinds);
+	for (i = 0; i < kinds; i++)
+		scanf("%f", &p[i].inventory);
+	for (i = 0; i < kinds; i++)
+		scanf("%f", &p[i].price);
+	qsort(p, kinds, sizeof(p[0]), cmpdec);
+
+	for (i = 0; i < kinds; i++)		// Greedy Algrithm;
+	{
+		if (amount >= p[i].inventory)
+		{
+			income += p[i].price;
+			amount -= p[i].inventory;
+		}
+		else
+		{
+			income += amount / p[i].inventory * p[i].price;
+			break;
+		}
+	}
+
+	printf("%.2f\n", income);
+	
+	return 0;
+}
+
+int cmpdec(const void *a, const void *b)
+{
+	data *c = (data *)a;
+	data *d = (data *)b;
+	float c1 = (float)c->price / c->inventory;
+	float d1 = (float)d->price / d->inventory;
+	return ((d1 - c1)>0 ? 1:-1);
+}
