@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+//key: use function qsort() to sort the number;
+
+
+int main()
+{
+	char string[1001];
+	int i, t, cnt[10] = { 0 };
+	gets(string);
+	for (i = 0; string[i] != '\0'; i++)
+	{
+		t = string[i] - '0';
+		switch (t)
+		{
+		case 0: cnt[0]++; break;
+		case 1: cnt[1]++; break;
+		case 2: cnt[2]++; break;
+		case 3: cnt[3]++; break;
+		case 4: cnt[4]++; break;
+		case 5: cnt[5]++; break;
+		case 6: cnt[6]++; break;
+		case 7: cnt[7]++; break;
+		case 8: cnt[8]++; break;
+		case 9: cnt[9]++; break;
+		}
+	}
+	for (i = 0; i < 10; i++)
+	{
+		if (cnt[i] != 0)
+			printf("%d:%d\n", i, cnt[i]);
+	}
+	
+	return 0;
+}
