@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	int a, b, scale, i = 0;
+	int result[32] = { 0 };
+	scanf("%d %d %d", &a, &b, &scale);
+	int c = a + b;
+	if (c == 0)
+		printf("0");
+	else
+	{
+		while (c != 0)
+		{
+			result[i++] = c % scale;
+			c /= scale;
+		}
+
+		for (i = i - 1; i >= 0; i--)
+		{
+			printf("%d", result[i]);
+		}
+	}
+	printf("\n");
+
+	return 0;
+}
