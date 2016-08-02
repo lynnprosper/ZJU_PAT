@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define N 100000
+typedef struct Nodes
+{
+	int localaddress;
+	int data;
+	int nextaddress;
+}Node;
+
+int main()
+{
+	Node array[N];
+	int start, amount, k, i, j;
+	int localadd;
+	scanf("%d %d %d", &start, &amount, &k);
+	int *addresslist = (int *)malloc(sizeof(int)* (amount+2));
+	Node *p = array + start;
+
+	for (i = 0; i < amount; i++)
+	{
+		scanf("%d", &localadd);
+		scanf("%d %d", &array[localadd].data, &array[localadd].nextaddress);
+	}
+
+	addresslist[amount+1] = -1;		//addresslist: store valid data address.
+	addresslist[1] = start;
+	for (i = 2; i <= amount; i++)
+	{
+		if (p->nextaddress == -1)	//dispose the number which doesn't belong to the link;
+			break;
+		addresslist[i] = p->nextaddress;
+		p = array + p->nextaddress;
+	}
+	amount = i - 1;		//renew the valid number amount.
+
+	int n = amount / k;
+	int remainder = amount % k;
+	int rembegin;
+	for (i = 1; i <= n; i++)	//output the reverse number;
+	{
+		int end = i * k;
+		int begin = end - k + 1;
+		for (j = end; j > begin; j--)
+			printf("%05d %d %05d\n", addresslist[j], array[addresslist[j]].data, addresslist[j - 1]);
+		if (i != n)
+			printf("%05d %d %05d\n", addresslist[begin], array[addresslist[begin]].data, addresslist[end + k]);
+		else
+		{
+			if (remainder == 0)
+				printf("%05d %d -1\n", addresslist[begin], array[addresslist[begin]].data);
+			else
+			{
+				printf("%05d %d %05d\n", addresslist[begin], array[addresslist[begin]].data, addresslist[end + 1]);
+				rembegin = end + 1;
+			}
+		}
+			
+	}
+	
+	if (remainder != 0)
+	{
+		for (i = rembegin; i < amount; i++)
+			printf("%05d %d %05d\n", addresslist[i], array[addresslist[i]].data, addresslist[i + 1]);
+		printf("%05d %d -1\n", addresslist[i], array[addresslist[i]].data);
+	}
+
+	return 0;
+}
