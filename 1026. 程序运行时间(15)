@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define CLK_TCK 100
+
+int main()
+{
+	int c1, c2;
+	float minus;
+	int hh, mm, ss;
+	scanf("%d %d", &c1, &c2);
+
+	minus = (float)(c2 - c1) / CLK_TCK;
+	hh = (int)minus / 3600;
+	minus -= hh * 3600;
+	mm = (int)minus / 60;
+	minus -= mm * 60;
+	ss = (int)(minus + 0.5);
+
+	printf("%02d:%02d:%02d\n", hh, mm, ss);
+
+	return 0;
+}
