@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+//use function 'strcpy', to judge the max and the min.
+//and copy the name to the 'max' or the 'min'.
+//keypoint: 1. result maybe all is not correct, hence output '0';
+
+typedef struct id
+{
+	char name[6];
+	char birthday[11];
+}person;
+
+int main()
+{
+	int number, i, validn = 0;
+	char tname[6], tbirthday[11];
+	scanf("%d", &number);
+	person min = { { '\0' }, { "2014/09/07" } }, max = { { '\0' }, { "1814/09/05" } };
+	char *s1 = "1814/09/05";
+	char *s2 = "2014/09/07";
+	for (i = 0; i < number; i++)
+	{
+		scanf("%s %s", tname, tbirthday);
+		if (strcmp(tbirthday, s1) > 0 && strcmp(tbirthday, s2) < 0)
+		{
+			if (strcmp(tbirthday, max.birthday) > 0)
+			{
+				strcpy(max.name, tname);
+				strcpy(max.birthday, tbirthday);
+			}
+
+			if (strcmp(tbirthday, min.birthday) < 0)
+			{
+				strcpy(min.name, tname);
+				strcpy(min.birthday, tbirthday);
+			}
+			validn++;
+		}
+
+	}
+
+	if (validn == 0)
+		printf("0\n");
+	else
+		printf("%d %s %s\n", validn, min.name, max.name);
+	return 0;
+}
