@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+//create an array 'a[]' as a flag, which indicates the 'ascii' number,
+//if the character is printed, flag = 1;
+
+int main()
+{
+	int i, j = 0, pos;
+	int a[96] = { 0 };
+	char test1[81], test2[81], t;
+	gets(test1);
+	gets(test2);
+	for (i = 0; test1[i] != '\0'; i++)
+	{
+	
+		if (test2[j] != '\0')
+		{
+			if (test1[i] == test2[j])
+				j++;
+			else
+			{
+				t = toupper(test1[i]);
+				pos = t - '\0';
+				if (a[pos] == 0)
+				{
+					printf("%c", t);
+					a[pos] = 1;				//flag = 1, the char will not printed next time.
+				}
+			}
+		}
+		else
+		{
+			t = toupper(test1[i]);
+			pos = t - '\0';
+			if (a[pos] == 0)
+			{
+				printf("%c", t);
+				a[pos] = 1;
+			}
+		}
+	
+	}
+	printf("\n");
+
+	return 0;
+}
