@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+//keypoint: use array[];
+// and be patient!
+
+int main()
+{
+	char test[100][19], checksum;
+	int weight[17] = {7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2};
+	char validsum[11] = { '1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2' };
+	int n, i, j,exit, sum, flag = 0;
+	scanf("%d", &n);
+
+	for (i = 0; i < n; i++)
+	{
+		scanf("%s", test[i]);
+	}
+
+	for (i = 0; i < n; i++)
+	{
+		sum = 0;
+		checksum = test[i][17];
+		for (j = 0; j < 17; j++)
+		{
+			exit = 0;
+			if (test[i][j] < '0' || test[i][j] > '9')
+			{
+				printf("%s\n", test[i]);
+				flag = 1;
+				exit = 1;
+				break;
+			}
+			else
+				sum += (test[i][j] - '0') * weight[j];
+		}
+
+		if (exit != 1 && validsum[sum % 11] != checksum)
+		{
+			flag = 1;
+			printf("%s\n", test[i]);
+		}		
+	}
+	if (flag == 0)
+		printf("All passed\n");
+	
+	return 0;
+}
