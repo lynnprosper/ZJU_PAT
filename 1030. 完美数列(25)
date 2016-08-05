@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+//keypoint: the second loop, use break. Otherwise it would be overtime;
+//use qsort() to sort the sequence;
+
+int cmpinc(const void *a, const void *b);
+
+int main()
+{
+	int n, i, j, cnt, maxnumber;
+	int min, maxcnt = 0;
+	long long int test, p;
+	scanf("%d %lld", &n, &p);						//p should be a long long int type;
+	int *array = (int *)malloc(sizeof(int)* n);
+
+	for (i = 0; i < n; i++)
+		scanf("%d", &array[i]);
+	qsort(array, n, sizeof(array[0]), cmpinc);
+	maxnumber = array[n - 1];
+
+	for (i = 0; i < n; i++)
+	{
+		cnt = 0;
+		min = array[i];
+		test = min * p;
+		if (test >= maxnumber)					//this clause can be ignored;
+		{
+			cnt = n - i;
+			if (cnt > maxcnt)
+				maxcnt = cnt;
+			break;
+		}
+	
+		for (j = i + maxcnt; j < n; j++)		//due to the sequence is ordered, so we compare the next loop for 'i+ maxcnt';
+		{										//then we can save time, or it will be overtime;
+			if (array[j] > test)		
+				break;
+			if ((j+1-i) > maxcnt)
+				maxcnt = j + 1 - i;
+		}
+	}
+	printf("%d\n", maxcnt);
+
+	return 0;
+}
+
+int cmpinc(const void *a, const void *b)
+{
+	return(*(int *)a - *(int *)b);
+}
