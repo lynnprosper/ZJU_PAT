@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <ctype.h>
+//keypoint: use array[] to store every ascii code;
+
+int main()
+{
+	int a[128] = { 0 }, i;
+	char broke[100001], test[100001], t;
+	gets(broke);							// use gets(), it can read 'Enter'; scanf() can't read it.
+	gets(test);
+
+	for (i = 0; broke[i] != '\0'; i++)		// translate every char to a lowercase;
+	{
+		t = tolower(broke[i]);
+		a[t] = 1;
+	}
+	int plus = a['+'];
+	for (i = 0; test[i] != '\0'; i++)
+	{
+		if (plus == 1)
+		{
+			if (plus == 1 && test[i] > 'Z' || test[i] < 'A')
+			{
+				if (a[test[i]] == 0)
+					printf("%c", test[i]);		
+			}	
+		}
+		else
+		{
+			t = tolower(test[i]);
+			if (a[t] == 0)
+				printf("%c", test[i]);
+		}
+	}
+	printf("\n");
+	
+	return 0;
+}
