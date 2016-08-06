@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>		//include function: memset()
+//keypoint: use array[] to store every school's sum score;
+
+
+int main()
+{
+	int n, i, tn, ts, maxschool, maxscore = 0, max = 0;
+	scanf("%d", &n);
+	int *p = (int *)malloc(sizeof(int)* (n + 1));
+	memset(p, 0, (n+1)*sizeof(int));
+
+	for (i = 0; i < n; i++)
+	{
+		scanf("%d %d", &tn, &ts);
+		p[tn] += ts;
+		if (max < tn)
+			max = tn;
+	}
+	for (i = 1; i <= max; i++)		// find the max score;
+	{
+		if (maxscore < p[i])
+		{
+			maxscore = p[i];
+			maxschool = i;
+		}
+	}
+
+	printf("%d %d\n", maxschool, maxscore);
+	
+	return 0;
+}
