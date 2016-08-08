@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	int n, i, j;
+	char ch;
+	scanf("%d %c", &n, &ch);
+	int row = (n + 1) / 2 - 2;
+
+	for (i = 0; i < n; i++)
+		printf("%c", ch);
+	
+	for (i = 0; i < row; i++)
+	{
+		printf("\n%c", ch);
+		for (j = 0; j < n - 2; j++)
+			printf(" ");
+		printf("%c", ch);
+	}
+	printf("\n");
+	
+	for (i = 0; i < n; i++)
+		printf("%c", ch);
+	printf("\n");
+
+	return 0;
+}
