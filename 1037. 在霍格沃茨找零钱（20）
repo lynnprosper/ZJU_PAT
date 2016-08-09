@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+//keypoint: exchange the number to one based on 'Knut';
+
+int main()
+{
+	int a1, b1, c1, a2, b2, c2;
+	int t = 17 * 29;
+	scanf("%d.%d.%d %d.%d.%d", &a1, &b1, &c1, &a2, &b2, &c2);
+	int sum1 = a1 * 17 * 29 + b1 * 29 + c1;
+	int sum2 = a2 * 17 * 29 + b2 * 29 + c2;
+	int change0 = sum2 - sum1;
+	if (change0 < 0)
+	{
+		printf("-");
+		change0 = -change0;
+	}
+	printf("%d.", change0 / t);
+	change0 %= t;
+	printf("%d.", change0 / 29);
+	printf("%d\n", change0 % 29);
+
+	return 0;
+}
