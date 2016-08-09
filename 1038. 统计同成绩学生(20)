@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+//keypoint: array score[] store the score's count; make its subscript as an index of score;
+
+int main()
+{
+	int n, t, score[101] = { 0 };
+	scanf("%d", &n);
+	int *test = (int *)malloc(sizeof(int)* n);
+	int i = 0;
+	while (i++ < n)
+	{
+		scanf("%d", &t);
+		score[t]++;
+	}
+	
+	int k;
+	scanf("%d", &k);
+	int *kscore = (int *)malloc(sizeof(int)* k);
+	for (i = 0; i < k; i++)
+		scanf("%d", &kscore[i]);
+	for (i = 0; i < k; i++)
+	{
+		printf("%d", score[kscore[i]]);
+		if (i != k - 1)
+			printf(" ");
+		else
+			printf("\n");
+	}
+
+	return 0;
+}
