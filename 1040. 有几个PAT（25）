@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+//keypoint: 'A' the middle position is the core, so we can find 
+// if there are a 'P's before 'A', b 'T's after 'A', we can get a*b 'PAT's.
+
+int main()
+{
+	int na = 0, nt = 0, np = 0, i, j, k;
+	long long sum = 0;
+	char str[100001];
+	scanf("%s", str);
+	int len = strlen(str);
+	for (i = 0; i < len && str[i] != 'A'; i++)
+	{
+		if (str[i] == 'P')
+			np++;
+	}
+	for (j = i + 1; j < len; j++)
+	{
+		if (str[j] == 'T')
+			nt++;
+	}
+
+	for (k = i; k < len; k++)
+	{
+		if (np < 0 || nt < 0)
+			break;
+
+		if (str[k] == 'A')
+			sum += np * nt;
+		if (str[k] == 'T')
+			nt--;
+		if (str[k] == 'P')
+			np++;
+	}
+	
+	printf("%d\n", sum % 1000000007);
+
+	return 0;
+}
