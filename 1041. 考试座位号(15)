@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+//keypoint: regard the pre-test number as the st[] case label;
+
+typedef struct ID
+{
+	char sn[15];
+	int te;
+}student;
+
+int main()
+{
+	int n, i, tpre, tte;
+	char tsn[15];
+	scanf("%d", &n);
+	student *st = (student *)malloc(sizeof(student)* (n+1));
+	for (i = 0; i < n; i++)
+	{
+		scanf("%s %d %d", &tsn, &tpre, &tte);
+		strcpy(st[tpre].sn, tsn);							// copy the serial number to st[];
+		st[tpre].te = tte;
+	}
+
+	int m;
+	scanf("%d", &m);
+	int *m_array = (int *)malloc(sizeof(int)* m);
+	for (i = 0; i < m; i++)
+		scanf("%d", &m_array[i]);
+
+	for (i = 0; i < m; i++)
+		printf("%s %d\n", st[m_array[i]].sn, st[m_array[i]].te);
+
+	return 0;
+}
