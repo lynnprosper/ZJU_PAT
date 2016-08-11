@@ -1,0 +1,29 @@
+11#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+int main()
+{
+	int i, a[26] = { 0 }, max_label, max;
+	char str[1001], ch;
+	max = max_label = 0;
+	gets(str);
+	for (i = 0; str[i] != '\0'; i++)		// count the times of alphabet, store it to the array a[];
+	{
+		ch = tolower(str[i]);
+		if (ch > 96 && ch < 123)
+			a[ch - 97]++;
+	}
+	for (i = 0; i < 26; i++)				// find the most alpahbet;
+	{
+		if (a[i] > max)
+		{
+			max = a[i];
+			max_label = i;
+		}
+	}
+	ch = 'a' + max_label;
+	printf("%c %d\n", ch, max);
+
+	return 0;
+}
