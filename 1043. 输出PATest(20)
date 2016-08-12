@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+int main()
+{
+	int flag = 6, cnt[6] = { 0 };
+	int i = 0;
+	char s[6] = { 'P', 'A', 'T', 'e', 's', 't' };
+	char ch;
+	while ((ch = getchar()) != '\n')				//cnt[i] to count the char's.
+	{
+		switch (ch)
+		{
+		case 'P':
+			cnt[0]++;
+			break;
+		case 'A':
+			cnt[1]++;
+			break;
+		case 'T':
+			cnt[2]++;
+			break;
+		case 'e':
+			cnt[3]++;
+			break;
+		case 's':
+			cnt[4]++;
+			break;
+		case 't':
+			cnt[5]++;
+			break;
+		default:
+			break;
+		}
+	}
+
+	while (flag > 0)		//flag is a count control, when all characters are printed, flag diminishes to 0;
+	{
+		if (cnt[i] > 0)
+		{
+			printf("%c", s[i]);
+			cnt[i]--;
+		}
+		else
+		{
+			if (cnt[i] == 0)
+			{
+				flag--;
+				cnt[i] = -1;
+			}
+		}
+		i++;
+		i %= 6;
+	}
+	printf("\n");
+
+	return 0;
+}
