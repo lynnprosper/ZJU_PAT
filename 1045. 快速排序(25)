@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// keypoint: firstly, sort the number by qsort(), then compare the two array;
+//if a[i] == b[i], it means it's possible. here we need to validate it. 
+// the a[i] must be the biggest among a[0] ~ a[i-1];
+
+int cmpinc(const void *a, const void *b);
+
+int main()
+{
+	
+	int n, i, j, cnt, max = 0;
+	j = cnt = 0;
+	scanf("%d", &n);
+	int *test = (int *)malloc(sizeof(int)* n);
+	int *checksum = (int *)malloc(sizeof(int)* n);
+	for (i = 0; i < n; i++)
+	{
+		scanf("%d", &test[i]);
+		checksum[i] = test[i];
+	}
+
+	qsort(test, n, sizeof(test[0]), cmpinc);
+	for (i = 0; i < n; i++)
+	{
+		if (checksum[i] > max && checksum[i] == test[i])	// check if the number present is the biggest.
+		{
+			cnt++;
+			test[j++] = test[i];
+		}
+		max = checksum[i] > max ? checksum[i] : max;
+	}
+	printf("%d\n", cnt);
+	for (i = 0; i < cnt; i++)
+	{
+		if (i != cnt - 1)
+			printf("%d ", test[i]);
+		else
+			printf("%d", test[i]);
+	}
+	printf("\n");			// cnt maybe '0', so output newline(test point 2).
+
+	return 0;
+}
+
+
+int cmpinc(const void *a, const void *b)
+{
+	return(*(int *)a - *(int *)b);
+}
