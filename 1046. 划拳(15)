@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int cmpinc(const void *a, const void *b);
+
+int main()
+{
+	
+	int n, i, a_say, a_do, b_say, b_do, result, a_cup, b_cup;
+	a_cup = b_cup = 0;
+	scanf("%d", &n);
+	for (i = 0; i < n; i++)
+	{
+		scanf("%d %d %d %d", &a_say, &a_do, &b_say, &b_do);
+		result = a_say + b_say;
+		if (a_do == result && b_do != result)
+			b_cup++;
+		if (b_do == result && a_do != result)
+			a_cup++;
+	}
+	printf("%d %d\n", a_cup, b_cup);
+
+	return 0;
+}
