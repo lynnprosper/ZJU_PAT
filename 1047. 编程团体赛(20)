@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main()
+{
+	
+	int i, n, player, teamname, score, maxteam, maxscore;
+	int team[1001] = { 0 };				//the case label to store the sum score as the team name;
+	maxteam = maxscore = 0;
+	scanf("%d", &n);
+	for (i = 0; i < n; i++)
+	{
+		scanf("%d-%d %d", &teamname, &player, &score);
+		team[teamname] += score;
+		if (team[teamname] > maxscore)
+		{
+			maxscore = team[teamname];
+			maxteam = teamname;
+		}
+	}
+
+	printf("%d %d\n", maxteam, maxscore);
+
+	return 0;
+}
