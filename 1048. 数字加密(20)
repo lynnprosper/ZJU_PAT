@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <string.h>
+
+//1. if length A > length B, we should add A-B '0' before B;
+//2. this question is reverse logically. Otherwise it will be wrong.
+//3. the position is odd means the last one is the first than the last.
+// point 3, I misunderstood it so much that i subscribe codes too many times.
+int main()
+{
+
+	int i, keylen, validlen, sum, vnum, knum;
+	char key[101] = { 0 }, temp[101] = { 0 }, valid[101] = { 0 };
+	char lst[14] = "0123456789JQK";
+	scanf("%s %s", key, temp);
+	keylen = strlen(key);
+	validlen = strlen(temp);
+
+	if (keylen > validlen)
+	{
+		memset(valid, '0', keylen - validlen);
+		validlen = keylen;
+
+	}
+
+	strcat(valid, temp);
+
+	for (i = 0; i < keylen; i++)
+	{
+		knum = key[keylen - i - 1] - '0';
+		vnum = valid[validlen - i - 1] - '0';
+
+		if (i % 2 == 1)
+		{
+			sum = vnum - knum;
+			sum = sum < 0 ? (sum + 10) : sum;
+		}
+		else
+		{
+			sum = knum + vnum;
+			sum %= 13;
+		}
+
+		valid[validlen - i - 1] = lst[sum];
+	}
+
+	printf("%s\n", valid);
+
+	return 0;
+}
