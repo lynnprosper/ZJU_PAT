@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+//key: 'screw' means the shape just like a rectangle clockwise;
+
+int column_num(int n);			// get the row and column;
+int cmpdec(const void *a, const void *b);
+
+int main()
+{
+	int n, i, j, k, row, column;
+	scanf("%d", &n);
+
+	int *primitive = (int *)malloc(sizeof(int)* n);
+	for (i = 0; i < n; i++)
+		scanf("%d", &primitive[i]);
+
+	qsort(primitive, n, sizeof(primitive[0]), cmpdec);
+	column = column_num(n);
+	row = n / column;
+
+	int **b = (int **)malloc(sizeof(int *) * row);
+	for (i = 0; i < row; i++)
+		b[i] = (int *)malloc(sizeof(int)* column);
+	
+	for (i = 0; i < row; i++)
+	{
+		for (j = 0; j < column; j++)
+			b[i][j] = 0;
+	}
+
+	i = j = k = 0;
+	b[0][0] = primitive[k++];
+	while (k < n)
+	{
+		while (j < column - 1 && b[i][j + 1] == 0)	b[i][++j] = primitive[k++];		//store data from left to right;
+		while (i < row - 1 && b[i + 1][j] == 0)		b[++i][j] = primitive[k++];		//store data from top to down;
+		while (j > 0 && b[i][j - 1] == 0)			b[i][--j] = primitive[k++];		//store data from right to left;
+		while (i > 0 && b[i - 1][j] == 0)			b[--i][j] = primitive[k++];		//store data from down to top;
+	}
+
+	for (i = 0; i < row; i++)
+	{
+		for (j = 0; j < column; j++)
+		{
+			if (j == column - 1)
+				printf("%d\n", b[i][j]);
+			else
+				printf("%d ", b[i][j]);
+		}
+	}
+
+	return 0;
+}
+
+int column_num(int n)
+{
+	int mid = (int)sqrt(n);
+	while (mid > 0)
+	{
+		if (n % mid == 0)
+			break;
+		mid--;
+	}
+	return mid;
+}
+
+int cmpdec(const void *a, const void *b)
+{
+	return(*(int *)b - *(int *)a);
+}
