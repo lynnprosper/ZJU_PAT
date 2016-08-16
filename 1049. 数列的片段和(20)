@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// key: find for the math algrithm.
+// for {1, 2, 3, 4}, we can divide it to {1} and {2, 3, 4}
+// the latter has 3 subsequences, then combining with the former {1},
+// it can generate two subsequences, so all is 2 * 3, namely (i+1) * (n - i);
+
+int main()
+{
+
+	int n, i;
+	double sum = 0;
+
+	scanf("%d", &n);
+	double *a = (double *)malloc(sizeof(double)* n);
+	for (i = 0; i < n; i++)
+	{
+		scanf("%lf", &a[i]);
+		sum += (i+1) * a[i] * (n-i);
+	}
+		
+
+	printf("%.2f\n", sum);
+
+	return 0;
+}
