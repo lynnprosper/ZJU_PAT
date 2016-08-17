@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+//keypoint: a bit troublesome , be careful;
+
+typedef int emo[5];
+
+void emoprint(char a[][5], int n);
+
+int main()
+{
+	char st[3][70];
+	char se[3][11][6];
+	int i, j, k, cnt;
+	int n, tlabel, len[3] = { 0 }, flag;
+
+	for (i = 0; i < 3; i++)			// read the symbols.
+	{
+		gets(st[i]);		// gets() can read 'space', scanf() can't.
+		cnt = 1;			// cnt is '1' , convenient;
+
+		for (j = 0; st[i][j] != '\0'; j++)
+		{
+			if (st[i][j] == '[')		// record the symbols between '[' and ']';
+			{
+				k = 0;
+				for (++j; st[i][j] != ']'; j++)
+				{
+					se[i][cnt][k++] = st[i][j];
+				}
+				se[i][cnt][k] = '\0';	// remember to add the end label;
+				cnt++;
+			}
+		}
+		len[i] = cnt - 1;		// record every collection's length;
+	}
+
+
+
+
+	char result[5][5];		//store the emotion;
+	scanf("%d", &n);
+	char kidding[] = "Are you kidding me? @\\/@";
+	emo *em = (emo *)malloc(sizeof(emo)* n);
+	for (i = 0; i < n; i++)
+	{
+		for (j = 0; j < 5; j++)
+			scanf("%d", &em[i][j]);
+	}
+
+	for (i = 0; i < n; i++)
+	{
+		flag = 1;
+		for (j = 0; j < 5; j++)
+		{
+			tlabel = j > 2 ? (j % 2) : j;	// to mark correctly;
+			if (em[i][j] <= len[tlabel] && em[i][j] > 0)	// do not forger to check the number is greater than 0;
+				strcpy(result[j], se[tlabel][em[i][j]]);
+			else
+			{
+				printf("%s\n", kidding);
+				flag = 0;
+				break;
+			}
+		}
+		if (flag == 1)
+			emoprint(result, 5);
+	}
+
+	return 0;
+}
+
+void emoprint(char a[][5], int n)		// to print the emotion every line indicates; 'n' means how many lines.
+{
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		if (i < n - 1)
+		{
+			if (i == 1)
+				printf("(%s", a[i]);
+			else if (i == n - 2)
+				printf("%s)", a[i]);
+			else
+				printf("%s", a[i]);
+		}
+		else
+			printf("%s\n", a[i]);
+	}
+		
+}
