@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+//logic is clear, be patient;
+
+int main()
+{
+	int n, d, day_e, vacant_p, vacant, i, test_day, j;
+	vacant = vacant_p = 0;
+	float e, t, ratio;
+	scanf("%d %f %d", &n, &e, &d);
+
+	for (i = 0; i < n; i++)
+	{
+		day_e = 0;
+		scanf("%d", &test_day);
+		for (j = 0; j < test_day; j++)
+		{
+			scanf("%f", &t);
+			if (t < e)
+				day_e++;
+		}
+		ratio = (float)day_e / test_day;
+
+		if (ratio > 0.5 && test_day > d)
+			vacant++;
+		else if (ratio > 0.5)
+			vacant_p++;
+	}
+
+	float rp = (float)vacant_p * 100 / n;
+	float rm = (float)vacant * 100 / n;
+	printf("%.1f%% %.1f%%\n", rp, rm);
+
+	return 0;
+}
