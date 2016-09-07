@@ -70,3 +70,84 @@ int cmpDec(const void *a, const void *b)
 {
 	return(*(int *)b - *(int *)a);
 }
+
+/* version 2
+#include <stdio.h>
+#include <stdlib.h>
+
+void conjecture(int n, int * a);
+int cmpdec(const void *a, const void *b);
+int istest(int n, int a[], int amount);
+
+int main()
+{
+	int a[102] = { 0 }, b[100];
+	int n, i, j, cnt = 0;
+	scanf("%d", &n);
+	int *test = (int *)malloc(sizeof(int)*n);
+	for (i = 0; i < n; i++)
+	{
+		scanf("%d", &test[i]);
+		conjecture(test[i], a);
+	}
+
+	for (i = 0, j = 0; i < 101; i++)
+	{
+		if (a[i] == 1 && istest(i, test, n))
+		{
+			b[j++] = i;
+			cnt++;
+		}
+	}
+	qsort(b, cnt, sizeof(b[0]), cmpdec);
+
+	for (i = 0; i < cnt; i++)
+	{
+		if (i != cnt - 1)
+			printf("%d ", b[i]);
+		else
+			printf("%d\n", b[i]);
+	}
+
+	return 0;
+}
+
+void conjecture(int n, int * a)
+{
+	a[n]++;
+	while (n != 1)
+	{
+		if (n % 2 == 0)
+		{
+			n /= 2;
+			if (n < 100)
+				a[n]++;
+		}
+		else
+		{
+			n = (3 * n + 1) / 2;
+			if (n < 100)
+				a[n]++;
+		}
+	}
+
+	return;
+}
+
+int cmpdec(const void *a, const void *b)
+{
+	return (*(int *)b - *(int *)a);
+}
+
+int istest(int n, int a[], int amount)
+{
+	int i;
+	for (i = 0; i < amount; i++)
+	{
+		if (n == a[i])
+			return 1;
+	}
+
+	return 0;
+}
+*/
