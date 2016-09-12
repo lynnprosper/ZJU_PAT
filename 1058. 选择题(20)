@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+//注意：最后一个测试点未通过，至今未发现原因。如果你发现的话，希望得到你的指点，谢谢~
+//key: firstly deal with every line string, transfer it to the standard format(without space and '(');
+//then compare each correct answer with students' result;
+
+#define M 100
+typedef struct
+{
+	char a[M];
+}stu;
+
+
+int main()
+{
+	int ns, nq, nt, i, j, k, t, max = 0;
+	scanf("%d %d", &ns, &nq);
+	stu as[101];
+	int er[101];
+	int score[1001];
+	/*stu *as = (stu *)malloc(sizeof(stu)* nq);		//using dynamic array will get a 'segment error', i don't know why.
+	int *er = (int *)malloc(sizeof(int)* nq);
+	int *score = (int *)malloc(sizeof(int)* ns);*/
+	
+	for (i = 0; i < nq; i++)		//initialize the array;
+		er[i] = 0;
+	for (i = 0; i < ns; i++)
+		score[i] = 0;
+
+	stu test, te;
+	//fflush(stdin);	// this method is not universal;
+	//getchar();
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF);	// the universal way to clear the buffer;
+
+	for (i = 0; i < nq; i++)
+	{
+		gets(te.a);
+		for (j = 0, k = 0; te.a[j] != '\0'; j++)	//deal with the array;
+		{
+			if (te.a[j] != ' ')
+				as[i].a[k++] = te.a[j];
+		}
+		as[i].a[k] = '\0';
+	}
+
+	for (i = 0; i < ns; i++)
+	{
+		gets(te.a);
+		for (j = 0, k = 0; te.a[j] != '\0'; j++)
+		{
+			if (te.a[j] != ' ' && te.a[j] != '(' && te.a[j] != ')')
+				test.a[k++] = te.a[j];
+		}
+		test.a[k] = '\0';
+
+		for (j = 0, k = 0; j < nq; j++)
+		{
+			nt = as[j].a[2] - '0' + 1;
+			t = strncmp((as[j].a + 2), (test.a + k), nt);	//compare the answer;
+
+			if (t == 0)
+				score[i] += as[j].a[0] - '0';
+			else
+				er[j]++;
+
+			k += nt;				
+		}
+	}
+
+	for (i = 0; i < ns; i++)
+		printf("%d\n", score[i]);
+	for (i = 0; i < nq; i++)
+		max = er[i] > max ? er[i] : max;
+
+	if (max == 0)
+		printf("Too simple");
+	else
+	{
+		printf("%d", max);
+		for (i = 0; i < nq; i++)
+		{
+			if (er[i] == max)
+				printf(" %d", i + 1);
+		}
+
+	}
+	printf("\n");
+	
+	/*free(as);
+	free(er);
+	free(score);*/
+	return 0;
+}
