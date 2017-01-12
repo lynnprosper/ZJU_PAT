@@ -1,2 +1,2 @@
 # PAT-Basic-Level
-https://www.patest.cn/contests/pat-b-practise
+https://www.patest.cn/contests
