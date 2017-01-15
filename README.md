@@ -1,2 +1,2 @@
-# PAT-Basic-Level
+# PAT
 https://www.patest.cn/contests
