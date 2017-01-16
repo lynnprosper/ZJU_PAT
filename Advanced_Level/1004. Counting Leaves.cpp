@@ -54,5 +54,5 @@ void dfs(int id, int level)	//id是从1开始的
 	}
 	vector<int>::iterator it = node[id].begin();
 	for(it; it < node[id].end(); it++)
-		dfs(*it, level+1);
+		dfs(*it, level+1);//传递深度不能用level++
 }
