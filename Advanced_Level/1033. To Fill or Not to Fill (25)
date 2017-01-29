@@ -1,0 +1,129 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+struct Node	//站点结构体
+{
+  bool operator<(const Node &b) const//重载比较运算符
+  {
+    return dist < b.dist;
+  }
+  double price;//价格
+  double dist;//距离
+};
+const int INF = 0x7FFFFF;//无穷大
+
+/*
+题意：
+求起点到终点如何加油花费最少。
+思路：
+如何费用最少？即我用最少的钱跑最远的距离。典型的贪心算法问题。
+关键是如何构建贪心策略。
+首先处理两个特例，
+1. 起点无加油站，直接输出
+2. 终点即起点，直接输出；
+
+普通情况：
+我们不妨假设现在位于加油站s，那么我们加多少油合适？
+先假定加满，即可以跑最远的范围，设为半径R。
+a.R范围内，无加油站。既然贪心，当然是加满，能跑多远跑多远。
+b. R范围内，有加油站。
+	b1. 有比现在还便宜的，那就加到能跑到下一站的油就好了。
+	b2. 没有比现在还便宜的。既然贪心，当然是加满咯。然后我们要找到这几个站相对最便宜的站，
+		到了这站（油可能有剩余），再决定下面的最优处理。
+
+以上就是贪心策略的构建。
+注：不要用vector，会超时
+*/
+int main()
+{
+  //freopen("in.txt", "r", stdin);
+  int Cmax, D, d_avg, N, i;
+  scanf("%d %d %d %d", &Cmax, &D, &d_avg, &N);
+  Node sta[501];	//表示加油站
+  int cnt = 0;	//用于记录有效的加油站数。
+
+  for(i = 0; i < N; i++)
+  {
+    double p, di;
+    scanf("%lf %lf", &p, &di);
+    if(di < D)	//无效的加油站丢弃
+    {
+      sta[cnt].dist = di;
+      sta[cnt++].price = p;
+    }
+  }
+
+  sta[cnt].dist = D;//此处把终点假设成一个加油站，方便后续处理
+  sta[cnt].price = 0;
+  cnt = cnt+1;//总站数
+  sort(sta, sta+cnt);
+
+  if(D == 0)//下面两个特例
+  {
+    printf("0.00\n");
+    return 0;
+  }
+  if(sta[0].dist != 0)
+  {
+    printf("The maximum travel distance = 0.00\n");
+    return 0;
+  }
+
+  double cost = 0;//总费用
+  int cur_pos = 0;//目前所在的站编号
+  double cur_gas = 0;//目前还有的油量
+  double max_dist = Cmax * d_avg;	//加满能跑的里程
+  double cur_dist = 0;//目前已跑的里程
+  int min_pos;//几个站中相对最便宜的编号
+  while(1)
+  {
+    double radius = cur_dist + max_dist;//加满能及的范围
+    double min_price = INF;
+    int flag = 0;//是否有加油站
+
+    for (int i = cur_pos + 1; i < cnt && sta[i].dist <= radius; i++)
+    {
+      flag = 1;//有站
+      
+      if(sta[i].price < sta[cur_pos].price)//情况b1
+      {
+        cost += ((sta[i].dist - cur_dist)/ d_avg - cur_gas)* sta[cur_pos].price;
+        cur_dist = sta[i].dist;
+        cur_pos = i;
+        cur_gas = 0;
+        min_price = INF;
+        break;
+      }
+      else//没有更便宜的，找出相对最便宜的
+      {
+        if(min_price > sta[i].price)
+        {
+          min_price = sta[i].price;
+          min_pos = i;
+        }
+      }
+    }
+
+    if(flag == 1 && min_price < INF)//情况b2
+    {
+      cost += (Cmax - cur_gas) * sta[cur_pos].price;
+      cur_gas = Cmax - (sta[min_pos].dist - cur_dist) / d_avg;
+      cur_dist = sta[min_pos].dist;
+      cur_pos = min_pos;
+    }
+
+    if(flag == 0)//无加油站
+    {
+      printf("The maximum travel distance = %.2lf\n", cur_dist + max_dist);
+      return 0;
+    }
+
+    if(cur_dist == D)//到达终点
+    {
+      printf("%.2lf\n", cost);
+      return 0;
+    }
+  }
+
+  return 0;
+}
