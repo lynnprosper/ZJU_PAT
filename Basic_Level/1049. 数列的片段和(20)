@@ -5,6 +5,7 @@
 // for {1, 2, 3, 4}, we can divide it to {1} and {2, 3, 4}
 // the latter has 3 subsequences, then combining with the former {1},
 // it can generate two subsequences, so all is 2 * 3, namely (i+1) * (n - i);
+// 即对于第i个数字(i=0~n-1)，它每组出现的次数为n-i，出现在前i+1个组中
 
 int main()
 {
