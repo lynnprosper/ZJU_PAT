@@ -1,0 +1,55 @@
+#include <iostream>
+#include <map>
+#include<cstring>
+using namespace std;
+const int s_max = 1000 + 5;//最大数
+
+/*
+题意：给出你需要的珠子， 商店里售卖的珠子，查看是否包含你需要的。
+思路：数据处理题。
+比较简单，可以用字符串进行比较处理。
+为了简便，我用的map映射。
+已AC。
+*/
+int main(void)
+{
+	//freopen("in.txt", "r", stdin);
+	char offer[s_max], need[s_max];//分别为提供的和需要的珠子
+	scanf("%s%s", offer, need);
+
+	map<char, int> mp;//键值分别是珠子号，数目
+	for (int i = 0; offer[i] != '\0'; i++)//进行映射
+	{
+		if (mp.count(offer[i]) == 0)
+			mp[offer[i]] = 0;
+		mp[offer[i]]++;
+	}
+
+	int flag = 0;
+	int missingNum = 0;//缺少数目
+	for (int i = 0; need[i] != '\0'; i++)
+	{
+		if (mp.count(need[i]) > 0)
+		{
+			mp[need[i]]--;
+			if (mp[need[i]] == 0)//删除该键
+				mp.erase(need[i]);
+		}
+		else
+		{
+			flag = 1;
+			missingNum++;
+		}
+	}
+
+	if (flag == 0)//表示满足要求
+	{
+		cout << "Yes " << strlen(offer) - strlen(need) << endl;
+	}
+	else
+	{
+		cout << "No " << missingNum << endl;
+	}
+
+	return 0;
+}
