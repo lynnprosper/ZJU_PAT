@@ -1,121 +1,133 @@
-#include<iostream>
-#include<string>
-#include<sstream>	//字符串流
-#include<map>
-#include<iomanip>
+#include <iostream>
+#include <map>
+#include <vector>
+#include <string>
+#include <algorithm>
 using namespace std;
-
-const string on("on-line");
-const string off("off-line");
 
 /*
 数据处理统计题，比较繁琐。
 题意是计算用户的月有效费用。
 可以构建结构体，然后排序。
 为求简便，这里使用map， 利用map的有序性。
-注：该代码最后一个测试点未AC，欢迎指正。
+注：已AC。
 PS2：数据有效性，若1on， 2 on， 3 off， 则1会被抛弃。
 无有效记录不输出。
 */
+
+struct Node//每条记录的结构体
+{
+	bool operator< (const Node &b)
+	{
+		return (startTime < b.startTime);
+	}
+	Node(int s, int mo, int d, int h, int m, int t) : startTime(s), month(mo), dd(d),hh(h), mm(m),tag(t) {}
+	int startTime;//记录的时间
+	int month, dd, hh, mm;
+	int tag;//0表示on-line, 1 for off-line
+};
+
 int main()
 {
-	//freopen("in.txt", "r", stdin);
-	int rate[24];	//存储计费标准
-	int N;
-	for(int i = 0; i < 24; i++)
-		cin >> rate[i];
-	cin >> N;
-
-	string id, time, flag;
-	map<string, map<string, string> > data;	//map里的键值是一个map，存储每个id的记录；
-	for(int i = 0; i < N; i++)
+	freopen("in.txt", "r", stdin);
+	int fare[24];
+	for (int i = 0; i < 24; i++)
 	{
-		cin >> id >> time >> flag;
-		if(data.count(id))	//id是key
+		scanf("%d", &fare[i]);
+	}
+	int N;
+	scanf("%d", &N);
+
+	map<string, vector<Node> > mp;// 一个人一个vector，存储他的记录
+	for (int i = 0; i < N; i++)
+	{
+		char tmp[25] = { 0 };
+		char status[10];
+		int month, dd, hh, mm;
+		scanf("%s %d:%d:%d:%d %s", tmp, &month, &dd, &hh, &mm, status);
+		string name(tmp);
+		int start = dd * 1440 + hh * 60 + mm;
+		int tag = (status[1] == 'n' ? 0 : 1);
+		Node tNode(start, month, dd, hh, mm, tag);
+
+		if (mp.count(name) > 0)
 		{
-			data[id][time] = flag;
+			mp[name].push_back(tNode);
 		}
 		else
 		{
-			map<string, string> info;	//第一次，插入map；此时map的key是日期时间
-			info[time] = flag;
-			data[id] = info;
+			vector<Node> mv;
+			mv.push_back(tNode);
+			mp.insert(make_pair(name, mv));
 		}
 	}
 
-	map<string, map<string, string> >::iterator it;	//迭代器；
-	string time1, time2;
-	for(it = data.begin(); it != data.end(); it++)//循环统计每个用户，删除无效记录
+	for (auto it = mp.begin(); it != mp.end(); it++)
 	{
-		id = it->first;
-		map<string, string>::iterator it2, it3;
-		it2 = data[id].begin();
-		while(it2 != data[id].end())	//处理每个用户的通话记录
+		int flag = 0;//标记是否输出该人记录，无有效通话不输出
+		int Tat = 0;//该人的总金额
+		sort(it->second.begin(), it->second.end());
+
+		int size = it->second.size();
+		for (int i = 0; i < size; )
 		{
-			it3 = it2;	//迭代器3起辅助作用，以防删除时2失效。
-			if(it2->second == on)
+			if (it->second[i].tag == 0)
 			{
-				it3++;
-				if(it3 != data[id].end() && it3->second == off)
+				for (int j = i + 1; j < size; j++)
 				{
-					it2 = ++it3;
+					if (it->second[j].tag == 0)
+					{
+						i = j;
+						break;
+					}
+					else//找到两条配对的记录
+					{
+						int total = 0;
+						int duration = it->second[j].startTime - it->second[i].startTime;
+						
+						int hhs = it->second[i].dd * 24 + it->second[i].hh + 1;
+						int hhe = it->second[j].dd * 24 + it->second[j].hh;
+						if (hhs > hhe)//这里表示开始和结束的小时一样，单独处理
+						{
+							total += (it->second[j].mm - it->second[i].mm) * fare[it->second[i].hh];
+						}
+						else
+						{
+							total += (60 - it->second[i].mm) * fare[it->second[i].hh];
+							total += (it->second[j].mm) * fare[it->second[j].hh];
+						}
+
+						for (int k = hhs; k < hhe; k++)
+						{
+							total += 60 * fare[k % 24];
+						}
+						Tat += total;
+						if (flag == 0)
+						{
+							printf("%s %02d\n", it->first.c_str(), it->second[0].month);
+							flag = 1;
+						}
+						printf("%02d:%02d:%02d %02d:%02d:%02d %d $%.2f\n",
+							it->second[i].dd, it->second[i].hh, it->second[i].mm,
+							it->second[j].dd, it->second[j].hh, it->second[j].mm,
+							duration, total / 100.0);
+
+						i = j + 1;
+						break;
+					}
 				}
-				else
-				{
-					data[id].erase(it2);	//删除无效记录
-					it2 = it3;
-				}
+
+				if (i == size - 1)
+					i++;
 			}
 			else
 			{
-				data[id].erase(it2++);	//删除无效记录
+				i++;
 			}
 		}
 
-		if(!data[id].empty())	//非空，有有效记录
-		{
-			it2 = data[id].begin();
-			cout << id << ' ' << it2->first.substr(0, 2) << endl;	//输出名字，月份
-
-			double total = 0;	//总费用
-			while(it2 != data[id].end())
-			{
-				time1 = it2->first;	//通话开始时间
-				it2++;
-				time2 = it2->first;	//通话结束时间
-				it2++;
-				time1[2] = time1[5] = time1[8] = ' ';
-				time2[2] = time2[5] = time2[8] = ' ';
-
-				int month, d1, d2, h1, h2, m1, m2;
-				stringstream s1(time1);
-				stringstream s2(time2);
-				s1 >> month >> d1 >> h1 >> m1;	//写入月日时分
-				s2 >> month >> d2 >> h2 >> m2;
-				int timeOn = m1+ h1*60 + d1*1440;	//通话开始分钟
-				int timeOff = m2+ h2*60 + d2*1440;
-				int sum_m = timeOff - timeOn;	//通话总时间
-
-				double money = 0;	//每次通话的金额
-				int hourOn = h1 + d1*24;
-				int hourOff = h2 + d2*24;
-				money = (60-m1)*rate[h1] + m2*rate[h2];	//先累加两端
-				for(int i = hourOn+1; i < hourOff; i++)	//累计费用
-				{
-					money += 60*rate[i%24];
-				}
-				total += money;
-
-				cout << setw(2) << setfill('0') << d1 <<':'	//输出
-					<< setw(2) << setfill('0') <<h1 << ':'
-					<< setw(2) << setfill('0') << m1
-					<< ' ' << setw(2) << setfill('0') << d2 << ':' 
-					<< setw(2) << setfill('0') << h2 << ':' 
-					<< setw(2) << setfill('0') << m2
-					<< ' ' << sum_m << " $" <<fixed << setprecision(2) << money/100 << endl;
-			}
-			cout << "Total amount: $" << fixed << setprecision(2) << total/100 << endl;
-		}
+		if (flag == 1)
+			printf("Total amount: $%.2f\n", Tat / 100.0);
 	}
 
 	return 0;
